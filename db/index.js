@@ -11,7 +11,8 @@ const syncAndSeed = async()=> {
   await conn.sync({ force: true });
   const [weeknd, metalica] = await Promise.all([
     Artist.create({ name: 'The Weeknd'}),
-    Artist.create({ name: 'metalica'})
+    Artist.create({ name: 'Metalica'}),
+    Artist.create({ name: 'Adele'})
   ]); 
   return {
     artists: {
@@ -24,5 +25,8 @@ const syncAndSeed = async()=> {
 
 
 module.exports = {
-  syncAndSeed
+  syncAndSeed,
+  models: {
+    Artist
+  }
 };
