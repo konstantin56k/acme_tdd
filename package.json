@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "DATABASE_URL=postgres://localhost/acme_tdd_test mocha spec.js",
+    "test:dev": "npm run test -- --watch",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
     "start:dev": "nodemon server --ignore src/ --ignore dist/ & npm run build:dev"
@@ -17,11 +19,13 @@
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7",
     "@babel/core": "^7.14.6",
     "@babel/preset-react": "^7.14.5",
     "babel-loader": "^8.2.2",
+    "chai": "^4.3.4",
     "express": "^4.17.1",
+    "mocha": "^9.0.0",
+    "nodemon": "^2.0.7",
     "pg": "^8.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
