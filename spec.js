@@ -17,13 +17,13 @@ describe('The API', ()=> {
       expect(seed.artists.metalica.name).to.equal('Metalica');
     });
   });
-  describe('artists routes', ()=> {
-    describe('GET /api/artists', ()=> {
-      it('returns the artists', async()=> {
-        const response = await app.get('/api/artists');
+  describe('albums routes', ()=> {
+    describe('GET /api/albums', ()=> {
+      it('returns the albums', async()=> {
+        const response = await app.get('/api/albums');
         expect(response.status).to.equal(200);
         expect(response.body.length).to.equal(3);
-        const names = response.body.map( artist => artist.name);
+        const names = response.body.map( album => album.name);
         expect(names).to.eql(['Adele', 'Metalica', 'The Weeknd']);
       });
     });

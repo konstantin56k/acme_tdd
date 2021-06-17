@@ -27,7 +27,10 @@ const Album = conn.define('album', {
     defaultValue: UUIDV4,
     primaryKey: true
   },
-  name: STRING
+  name: {
+    type: STRING,
+    allowNull: false
+  }
 });
 
 const Track = conn.define('track', {
@@ -49,15 +52,25 @@ Album.hasMany(Track);
 
 const syncAndSeed = async()=> {
   await conn.sync({ force: true });
-  const [weeknd, metalica, adele] = await Promise.all([
+  const [weeknd, metalica, adele, starboy] = await Promise.all([
     Artist.create({ name: 'The Weeknd'}),
     Artist.create({ name: 'Metalica'}),
-    Artist.create({ name: 'Adele'})
-  ]); 
+    Artist.create({ name: 'Adele'}),
+    Album.create({ name: 'Starboy'})
+]);
+
+starboy.id = weeknd.id;
+await starboy.save();
+
   return {
     artists: {
       weeknd,
-      metalica
+      metalica,
+      adele
+    },
+
+    albums: {
+      starboy
     }
   };
 
@@ -67,6 +80,9 @@ const syncAndSeed = async()=> {
 module.exports = {
   syncAndSeed,
   models: {
-    Artist
+    Artist,
+    Album,
+    Song,
+    Track
   }
 };
