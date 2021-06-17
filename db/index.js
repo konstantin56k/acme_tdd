@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { STRING, UUID, UUIDV4 } = Sequelize.DataTypes;
+const { STRING, UUID, UUIDV4, INTEGER } = Sequelize.DataTypes;
 
 const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme_tdd');
 
@@ -11,6 +11,41 @@ const Artist = conn.define('artist', {
   },
   name: STRING
 });
+
+const Song = conn.define('song', {
+  id: {
+    type: UUID,
+    defaultValue: UUIDV4,
+    primaryKey: true
+  },
+  name: STRING
+});
+
+const Album = conn.define('album', {
+  id: {
+    type: UUID,
+    defaultValue: UUIDV4,
+    primaryKey: true
+  },
+  name: STRING
+});
+
+const Track = conn.define('track', {
+  idx: {
+    type: INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  }
+});
+
+Song.belongsTo(Artist);
+Album.belongsTo(Artist);
+Track.belongsTo(Song);
+Track.belongsTo(Album);
+Artist.hasMany(Song);
+Artist.hasMany(Album);
+Song.hasMany(Track);
+Album.hasMany(Track);
 
 const syncAndSeed = async()=> {
   await conn.sync({ force: true });
