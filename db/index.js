@@ -18,7 +18,10 @@ const Song = conn.define('song', {
     defaultValue: UUIDV4,
     primaryKey: true
   },
-  name: STRING
+  name: STRING,
+  duration: {
+    type: INTEGER
+  }
 });
 
 const Album = conn.define('album', {
@@ -34,11 +37,12 @@ const Album = conn.define('album', {
 });
 
 const Track = conn.define('track', {
-  idx: {
-    type: INTEGER,
-    autoIncrement: true,
+  id: {
+    type: UUID,
+    defaultValue: UUIDV4,
     primaryKey: true
-  }
+  },
+  idx: INTEGER
 });
 
 Song.belongsTo(Artist);
@@ -52,15 +56,39 @@ Album.hasMany(Track);
 
 const syncAndSeed = async()=> {
   await conn.sync({ force: true });
-  const [weeknd, metalica, adele, starboy] = await Promise.all([
+  const [weeknd, metalica, adele] = await Promise.all([
     Artist.create({ name: 'The Weeknd'}),
     Artist.create({ name: 'Metalica'}),
-    Artist.create({ name: 'Adele'}),
-    Album.create({ name: 'Starboy'})
+    Artist.create({ name: 'Adele'})
 ]);
 
-starboy.id = weeknd.id;
-await starboy.save();
+const [ adele19, adele25, afterHours, theHighlights] = await Promise.all([
+  Album.create({ name: 'Adele 19', artistId: adele.id }),
+  Album.create({ name: 'Adele 25', artistId: adele.id }),
+  Album.create({ name: 'After Hours', artistId: weeknd.id }),
+  Album.create({ name: 'The Highlights', artistId: weeknd.id }),
+]);
+
+const [ hello, whenWeWereYoung, dayDreamer, blindingLights, inYourEyes, saveYourTears] = await Promise.all([
+  Song.create({ name: 'Hello', artistId: adele.id, duration: 300 }),
+  Song.create({ name: 'When We Were Young', artistId: adele.id, duration: 350 }),
+  Song.create({ name: 'Day Dreamer', artistId: adele.id, duration: 350 }),
+  Song.create({ name: 'Blinding Lights', artistId: weeknd.id, duration: 400 }),
+  Song.create({ name: 'In Your Eyes', artistId: weeknd.id, duration: 410 }),
+  Song.create({ name: 'Save Your Tears', artistId: weeknd.id, duration: 410 }),
+]);
+
+await Promise.all([
+  Track.create({ songId: hello.id, albumId: adele25.id, idx: 1}),
+  Track.create({ songId: whenWeWereYoung.id, albumId: adele25.id, idx: 1}),
+  Track.create({ songId: dayDreamer.id, albumId: adele25.id, idx: 2}),
+  Track.create({ songId: blindingLights.id, albumId: theHighlights.id, idx: 2}),
+  Track.create({ songId: inYourEyes.id, albumId: theHighlights.id, idx: 2}),
+  Track.create({ songId: blindingLights.id, albumId: afterHours.id, idx: 2}), 
+  Track.create({ songId: inYourEyes.id, albumId: afterHours.id, idx: 1}),
+  Track.create({ songId: saveYourTears.id, albumId: afterHours.id, idx: 5}) 
+]);
+
 
   return {
     artists: {
@@ -68,9 +96,11 @@ await starboy.save();
       metalica,
       adele
     },
-
     albums: {
-      starboy
+      theHighlights,
+      adele19,
+      afterHours,
+      adele25
     }
   };
 

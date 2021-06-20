@@ -11,7 +11,7 @@ app.get('/api/artists', async(req, res, next)=> {
   try {
     res.send(await Artist.findAll({
       order: [['name']],
-      include: Album
+      include: [ Album ]
     }));
   }
   catch(ex){
@@ -23,7 +23,22 @@ app.get('/api/albums', async(req, res, next)=> {
   try {
     res.send(await Album.findAll({
       order: [['name']],
-      include: Artist
+      include: [ Artist ]
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.get('/api/albums/:id/tracks', async(req, res, next)=> {
+  try {
+    res.send(await Track.findAll({
+      order: [['idx']],
+      where: {
+        albumId: req.params.id
+      },
+      include: [ Song ]
     }));
   }
   catch(ex){

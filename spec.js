@@ -22,9 +22,9 @@ describe('The API', ()=> {
       it('returns the albums', async()=> {
         const response = await app.get('/api/albums');
         expect(response.status).to.equal(200);
-        expect(response.body.length).to.equal(3);
+        expect(response.body.length).to.equal(4);
         const names = response.body.map( album => album.name);
-        expect(names).to.eql(['Adele', 'Metalica', 'The Weeknd']);
+        expect(names).to.eql([ "Adele 19", "Adele 25", "After Hours", "The Highlights"]);
       });
     });
   });
