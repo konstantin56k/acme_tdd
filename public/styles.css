@@ -1,0 +1,54 @@
+#root{
+    width: 40rem;
+    height: 40rem;
+}
+
+body{
+    box-sizing: border-box ;
+}
+
+#menu{
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    margin-left: 0;
+}
+
+#artistslist, #albumslist{
+    display: flex;
+    list-style: none;
+    flex-direction: column;
+    margin-left: 6rem;
+}
+
+.abc{
+    list-style: none;
+}
+
+#menu > li{
+    width: 5rem;
+    text-align: center;
+}
+
+#menu > li:hover{
+    border: black, 6px, solid;
+    border-radius: 10px;
+
+}
+
+h1{
+    text-align: center;
+}
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 10rem;
+}
+
+.selected{
+    background-color:darkseagreen;
+    border-radius: 10px;
+}

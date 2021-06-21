@@ -81,7 +81,7 @@ const [ hello, whenWeWereYoung, dayDreamer, blindingLights, inYourEyes, saveYour
 await Promise.all([
   Track.create({ songId: hello.id, albumId: adele25.id, idx: 1}),
   Track.create({ songId: whenWeWereYoung.id, albumId: adele25.id, idx: 1}),
-  Track.create({ songId: dayDreamer.id, albumId: adele25.id, idx: 2}),
+  Track.create({ songId: dayDreamer.id, albumId: adele19.id, idx: 2}),
   Track.create({ songId: blindingLights.id, albumId: theHighlights.id, idx: 2}),
   Track.create({ songId: inYourEyes.id, albumId: theHighlights.id, idx: 2}),
   Track.create({ songId: blindingLights.id, albumId: afterHours.id, idx: 2}), 
